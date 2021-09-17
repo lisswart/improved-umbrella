@@ -26,11 +26,11 @@ ActiveRecord::Schema.define(version: 2021_09_17_001119) do
 
   create_table "book_authors", force: :cascade do |t|
     t.bigint "book_id", null: false
-    t.bigint "user_id", null: false
+    t.bigint "author_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_id"], name: "index_book_authors_on_author_id"
     t.index ["book_id"], name: "index_book_authors_on_book_id"
-    t.index ["user_id"], name: "index_book_authors_on_user_id"
   end
 
   create_table "book_users", force: :cascade do |t|
@@ -64,8 +64,8 @@ ActiveRecord::Schema.define(version: 2021_09_17_001119) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "book_authors", "authors"
   add_foreign_key "book_authors", "books"
-  add_foreign_key "book_authors", "users"
   add_foreign_key "book_users", "books"
   add_foreign_key "book_users", "users"
 end
