@@ -10,8 +10,9 @@ puts "clearing old data..."
 User.destroy_all
 Book.destroy_all
 Author.destroy_all
-BookUser.destroy_all
 BookAuthor.destroy_all
+BookUser.destroy_all
+
 
 puts "seeding users..."
 
@@ -57,13 +58,34 @@ puts "seeding book_users..."
   tags: ["philosophy", "psychology", "mathematics", "computing", "programming", "economics", "science", "policy", "politics", "ethics", "self-help", "novel", "mystery", "historical fiction"].sample,
   description: Faker::Lorem.paragraph(sentence_count: 8),
   read_status: ["Not Begun", "In Progress", "Completed", "Abandoned"].sample,
-  is_notes_added: [true, false].sample,
-  is_rating_added: [true, false].sample,
-  is_review_added: [true, false].sample,
-  notes: Faker::Lorem.paragraph(sentence_count: 6, supplemental: true, random_sentences_to_add: rand(1..20)),
-  review: Faker::Lorem.paragraph(sentence_count: 15, supplemental: true, random_sentences_to_add: rand(1..30)),
-  rating: [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10].sample
+  is_notes_added: [true, false].sample
   )
+end
+
+books = BookUser.all
+books.each do |book|
+
+  if book[:read_status] == "Not Begun"
+    book[:rating] = nil
+    book[:is_review_added] = false
+    book.save
+  elsif book[:read_status] == "In Progress" || book[:read_status] == "Completed"
+    rating = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10].sample
+    book[:rating] = rating
+    random_bool = [true, false].sample
+    book[:is_review_added] =random_bool
+    book.save
+  end
+
+  if book[:is_notes_added] == true
+    book[:notes] = Faker::Lorem.paragraph(sentence_count: 6, supplemental: true, random_sentences_to_add: rand(1..20))
+    book.save
+  end
+
+  if book[:is_review_added] == true
+    book[:review] = Faker::Lorem.paragraph(sentence_count: 15, supplemental: true, random_sentences_to_add: rand(1..30))
+    book.save
+  end
 end
 
 puts "done seeding all resources 🌱🌱🌱"
