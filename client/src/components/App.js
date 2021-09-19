@@ -29,11 +29,11 @@ function App() {
 
   function handleLogin(user) {
       setUser(user);
-  };
+  }
 
   function handleLogout() {
       setUser(null);
-  };
+  }
 
   return (
       <div id="page-container">

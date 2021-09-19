@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post '/signup', to: 'users#create'
   get '/me', to: 'users#show'
   patch '/users/:id', to: 'users#update'
+  get '/users', to: 'users#index'
   
   get '/books', to: 'books#index'
   get '/books/:id', to: 'books#show'

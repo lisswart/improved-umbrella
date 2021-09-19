@@ -25,7 +25,7 @@ function Login({ onLogin }) {
                     response.json().then((user) => {
                         onLogin(user);
                         setUsername("");
-                        history.push("/profile");
+                        history.push("/me");
                     });
                 } else {
                     response.json().then(error => {

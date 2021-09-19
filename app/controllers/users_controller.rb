@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+  def index
+    users = User.all
+    render json: users, include: :book_users
+  end
+
   def create
     user = User.create(username: params[:username], email: params[:email])
     render json: user, status: :created
@@ -6,7 +11,7 @@ class UsersController < ApplicationController
 
   def show
     user = User.find(session[:user_id])
-    render json: user
+    render json: user, include: :books
   end
 
   def update
