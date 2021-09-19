@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <footer>
-      Website created by Lisa Swart
+      Created with ❤️
     </footer>
   );
 }
